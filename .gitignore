@@ -1,0 +1,21 @@
+# 비밀정보 (절대 올리지 않음)
+.env
+.env.*
+!.env.example
+secrets/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# 로그, 로컬 DB
+*.log
+*.db
+*.sqlite3
+
+# 편집기
+.idea/
+.vscode/

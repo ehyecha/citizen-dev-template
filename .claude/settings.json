@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.local)",
+      "Read(./.env.prod)",
+      "Read(./secrets/**)",
+      "Edit(./Dockerfile)",
+      "Edit(./.gitlab-ci.yml)",
+      "Edit(./.github/**)",
+      "Bash(curl:*)",
+      "Bash(wget:*)",
+      "Bash(git push --force:*)",
+      "Bash(rm -rf:*)"
+    ],
+    "ask": [
+      "Bash(uv add:*)",
+      "Bash(git push:*)"
+    ]
+  }
+}

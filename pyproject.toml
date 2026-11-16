@@ -1,0 +1,36 @@
+[project]
+name = "internal-web-tool"
+version = "0.1.0"
+description = "사내 웹 도구 템플릿"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "jinja2",
+    "python-multipart",
+    "sqlalchemy>=2",
+    "alembic",
+    "psycopg[binary]",
+    "pydantic-settings",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "httpx",
+    "ruff",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B"]
+ignore = ["B008"]  # FastAPI 의 Depends(...) 사용 방식은 허용
+
+[tool.ruff.lint.isort]
+known-third-party = ["alembic"]

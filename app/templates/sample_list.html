@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}예시 목록{% endblock %}
+{% block content %}
+<h1>예시 목록</h1>
+<p class="note">이 화면은 예시입니다. 만들고 싶은 도구에 맞게 바꾸거나 지우세요.</p>
+
+{% if message %}<p class="error">{{ message }}</p>{% endif %}
+
+<form method="post" action="/items" class="row">
+  <input name="name" placeholder="이름" maxlength="100" required>
+  <input name="quantity" type="number" placeholder="수량" min="1" max="100000" required>
+  <button type="submit">저장</button>
+</form>
+
+<table>
+  <thead><tr><th>번호</th><th>이름</th><th>수량</th></tr></thead>
+  <tbody>
+    {% for item in result.rows %}
+    <tr><td>{{ item.id }}</td><td>{{ item.name }}</td><td>{{ item.quantity }}</td></tr>
+    {% else %}
+    <tr><td colspan="3">아직 데이터가 없습니다.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<p>전체 {{ result.total }}건 · {{ result.page }}페이지</p>
+<nav class="row">
+  {% if result.has_prev %}<a href="/?page={{ result.page - 1 }}">이전</a>{% endif %}
+  {% if result.has_next %}<a href="/?page={{ result.page + 1 }}">다음</a>{% endif %}
+</nav>
+{% endblock %}
