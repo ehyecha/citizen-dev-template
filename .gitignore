@@ -16,6 +16,10 @@ __pycache__/
 *.db
 *.sqlite3
 
+# 회사 디자인 자산 (담당자에게 받아 app/static/ 에 직접 넣는다. 로고는 logo.png, 스타일은 style.css)
+app/static/logo.png
+app/static/style.css
+
 # 편집기
 .idea/
 .vscode/

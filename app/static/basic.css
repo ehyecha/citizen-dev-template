@@ -1,0 +1,22 @@
+/*
+  기본 스타일 (회색 계열, 회사 디자인 값 없음).
+  회사 디자인 파일(style.css)이 없을 때도 화면이 깨지지 않게 하는 용도다.
+  회사 디자인은 app/static/style.css 에 넣으면 이 파일 위에 덮어 적용된다. (style.css 는 Git 에 올리지 않음)
+*/
+* { box-sizing: border-box; }
+body { margin: 0; font-family: "Malgun Gothic", sans-serif; font-size: 14px; color: #222; background: #f6f7f9; }
+.container { max-width: 1000px; margin: 24px auto; padding: 0 16px; }
+h1 { font-size: 22px; margin: 0 0 12px; }
+.note { color: #666; }
+.error { color: #b00020; }
+.row { display: flex; gap: 8px; margin: 12px 0; align-items: center; }
+.site-header { display: flex; align-items: center; height: 48px; padding: 0 12px; background: #444; }
+.logo-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+.logo { width: 28px; height: 28px; object-fit: cover; display: block; }
+.brand { font-size: 15px; font-weight: 700; color: #fff; }
+button, .btn { height: 36px; padding: 0 14px; border: 0; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; background: #444; color: #fff; font: inherit; text-decoration: none; }
+.btn.sec { background: #fff; color: #222; border: 1px solid #ccc; }
+.btn.sm { height: 32px; }
+input, select { height: 36px; padding: 0 12px; border: 1px solid #ccc; border-radius: 6px; font: inherit; }
+table { width: 100%; border-collapse: collapse; background: #fff; }
+th, td { padding: 8px 12px; border-bottom: 1px solid #e3e5e8; text-align: left; }

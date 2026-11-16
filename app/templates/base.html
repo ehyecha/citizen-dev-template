@@ -4,10 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}사내 웹 도구{% endblock %}</title>
-  <!-- TODO: 사내 공통 CSS 로 교체 -->
-  <link rel="stylesheet" href="/static/style.css">
+  <!-- 기본 스타일(올라가 있음) + 회사 디자인 style.css(담당자에게 받아 넣음, Git 에 올리지 않음. 없어도 화면은 열림) -->
+  <link rel="stylesheet" href="/static/basic.css">
+  <link rel="stylesheet" href="/static/style.css?v=4">
 </head>
 <body>
+  <header class="site-header">
+    <a href="/" class="logo-link">
+      <img src="/static/logo.png" alt="회사 로고" class="logo">
+      <span class="brand">{% block brand %}사내 웹 도구{% endblock %}</span>
+    </a>
+  </header>
   <main class="container">
     {% block content %}{% endblock %}
   </main>
