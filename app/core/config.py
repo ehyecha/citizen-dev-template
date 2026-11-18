@@ -10,9 +10,8 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
     app_env: str = "local"  # local / dev / prod
-    # 기본값: 이 폴더의 local.db 파일 (내 PC 전용 DB, 설치 불필요).
-    # 서버(PostgreSQL)에 연결할 때만 .env 의 DATABASE_URL 로 바꾼다.
-    database_url: SecretStr = SecretStr("sqlite:///./local.db")
+    # PostgreSQL 접속 주소. 코드에 쓰지 않고 .env(내 PC) 또는 서버 환경변수에서만 읽는다.
+    database_url: SecretStr
 
 
 @lru_cache

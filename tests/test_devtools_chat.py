@@ -121,6 +121,21 @@ def test_first_stage_blocks_when_not_allowed(monkeypatch):
     assert '"error": true' in events[-1]
 
 
+def test_screen_path_reading():
+    assert chat_server.screen_path("완료\n화면 주소: /earnings") == "/earnings"
+    assert chat_server.screen_path("완료\n화면 주소: `/a/b`") == "/a/b"
+    assert chat_server.screen_path("완료") == ""
+    assert chat_server.screen_path("화면 주소: //evil.com") == ""  # 다른 사이트 주소는 받지 않는다
+    assert chat_server.screen_path("화면 주소: http://evil.com") == ""
+
+
+def test_done_tells_which_screen_to_open(monkeypatch):
+    _fake_stages(monkeypatch, ["검토 결과: 통과"])
+    monkeypatch.setattr(chat_server, "screen_path", lambda text: "/earnings")
+    events = list(chat_server._pipeline_rest("요청", "이해"))
+    assert '"path": "/earnings"' in events[-1]
+
+
 def test_verdict_reading():
     assert chat_server.review_passed("문제 없음\n검토 결과: 통과")
     assert not chat_server.review_passed("검토 결과: 수정 필요 - 테스트")
@@ -197,6 +212,8 @@ def test_agent_markers_are_in_the_files():
     review = (chat_server.AGENTS_DIR / "review.md").read_text(encoding="utf-8")
     assert "진행 가능: 예" in understand and "진행 가능: 아니오" in understand
     assert "검토 결과: 통과" in review and "검토 결과: 수정 필요" in review
+    develop = (chat_server.AGENTS_DIR / "develop.md").read_text(encoding="utf-8")
+    assert "화면 주소:" in develop
 
 
 def test_command_uses_agent_file():

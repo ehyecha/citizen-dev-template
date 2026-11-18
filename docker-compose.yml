@@ -1,0 +1,24 @@
+# 내 PC 에서 PostgreSQL 을 켜는 파일입니다. (서버 배포와는 관계 없음)
+# 접속 정보는 .env 에서 읽습니다. 처음 한 번 .env.example 을 .env 로 복사하세요.
+#   켜기:   docker compose up -d db
+#   끄기:   docker compose down      (데이터는 남아 있음)
+#   초기화: 담당자에게 문의 (저장된 데이터가 모두 사라집니다)
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:?.env 에 POSTGRES_USER 가 필요합니다}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?.env 에 POSTGRES_PASSWORD 가 필요합니다}
+      POSTGRES_DB: ${POSTGRES_DB:?.env 에 POSTGRES_DB 가 필요합니다}
+    ports:
+      - "127.0.0.1:5433:5432"   # 내 PC 에서만 접속 가능 (5433: PC 에 설치된 PostgreSQL 과 겹치지 않게)
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  pgdata:

@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
-    upgrade_local_db()  # 로컬 DB 파일일 때만 테이블 자동 생성
+    upgrade_local_db()  # 내 PC(APP_ENV=local)일 때만 테이블 자동 생성
     yield
 
 

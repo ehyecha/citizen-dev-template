@@ -37,7 +37,7 @@ echo.
 echo 잠시 후 브라우저가 열립니다.
 echo 끄려면 이 검은 창과, 새로 열린 "만들고 있는 화면 서버" 창을 모두 닫으세요.
 rem 만들고 있는 화면(8000번)은 별도 창에서 켠다. 코드가 바뀌면 자동으로 다시 시작된다.
-start "만들고 있는 화면 서버" cmd /k "uv run uvicorn app.main:app --reload --port 8000"
+start "만들고 있는 화면 서버" cmd /k "uv run python -m uvicorn app.main:app --reload --port 8000"
 start "" cmd /c "timeout /t 5 /nobreak >nul & start http://localhost:8001"
-uv run uvicorn devtools.chat_server:app --host 127.0.0.1 --port 8001
+uv run python -m uvicorn devtools.chat_server:app --host 127.0.0.1 --port 8001
 pause

@@ -21,7 +21,7 @@
 | 로그를 남길 때 | 7장 |
 | 테스트를 만들 때 | 8장 |
 
-> 이 템플릿에서 **만들지 않는 것**: 다른 사내 시스템 연계, 자체 로그인, Docker·배포 설정.
+> 이 템플릿에서 **만들지 않는 것**: 다른 사내 시스템 연계, 자체 로그인, Dockerfile·배포 설정 (현업 담당자가 관리).
 > 요청을 받으면 만들지 말고 담당자 문의를 안내합니다. <!-- TODO: 문의처 -->
 
 ---
@@ -191,7 +191,7 @@ def get_settings() -> Settings:
 
 ## 6. 데이터베이스 (PostgreSQL)
 
-- DB 는 **PostgreSQL** 입니다. 접속 정보는 환경변수 `DATABASE_URL` 로만 받습니다.
+- DB 는 **PostgreSQL** 입니다. 접속 정보는 환경변수 `DATABASE_URL` 로만 받습니다. 내 PC 에서는 `docker compose up -d db` 로 켠 PostgreSQL 컨테이너를 씁니다.
 - SQLAlchemy 2.x 방식(`select()`, `Mapped[]`)을 씁니다.
 - **SQL 을 문자열로 이어 붙이지 않습니다.** 반드시 SQLAlchemy 문법이나 파라미터 바인딩을 씁니다.
 - **테이블을 만들거나 바꿀 때는 Alembic 으로만** 합니다. DB 를 직접 고치지 않습니다.

@@ -18,11 +18,11 @@ def get_engine() -> Engine:
 
 
 def upgrade_local_db() -> None:
-    """로컬 DB 파일(SQLite)일 때만, 앱이 시작될 때 테이블을 자동으로 만든다 (Alembic 기록 사용).
+    """내 PC(APP_ENV=local)일 때만, 앱이 시작될 때 테이블을 자동으로 만든다 (Alembic 기록 사용).
 
     서버 DB(PostgreSQL)는 자동으로 바꾸지 않는다. 담당자가 정한 절차로 적용한다.
     """
-    if not get_settings().database_url.get_secret_value().startswith("sqlite"):
+    if get_settings().app_env != "local":
         return
     root = Path(__file__).resolve().parents[2]
     config = Config(str(root / "alembic.ini"))

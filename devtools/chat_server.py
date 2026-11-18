@@ -216,6 +216,17 @@ def can_proceed(understanding: str) -> bool:
     return not re.search(r"진행\s*가능\s*:\s*아니오", _last_line(understanding))
 
 
+SCREEN_PATH_RE = re.compile(r"화면\s*주소\s*:\s*`?(/[A-Za-z0-9_\-/]*)`?\s*$")
+
+
+def screen_path(development: str) -> str:
+    """개발 담당이 마지막 줄에 적은 '화면 주소: /주소' 를 읽는다. 없거나 이상하면 빈 문자열."""
+    match = SCREEN_PATH_RE.search(_last_line(development))
+    if not match or "//" in match.group(1):
+        return ""
+    return match.group(1)
+
+
 def review_passed(review: str) -> bool:
     """검토 마지막 줄이 '통과' 일 때만 참. 읽을 수 없으면 안전하게 거짓으로 본다."""
     last = _last_line(review)
@@ -229,8 +240,11 @@ def _sse(payload: dict) -> str:
     return f"data: {json.dumps(payload, ensure_ascii=False)}\n\n"
 
 
-def _done(text: str, error: bool = False, busy: bool = False) -> str:
-    return _sse({"kind": "done", "text": text, "error": error, "busy": busy})
+def _done(text: str, error: bool = False, busy: bool = False, path: str = "") -> str:
+    payload = {"kind": "done", "text": text, "error": error, "busy": busy}
+    if path:
+        payload["path"] = path  # 미리보기가 열어야 할 화면 주소
+    return _sse(payload)
 
 
 def busy_message() -> str:
@@ -336,7 +350,13 @@ def _pipeline_rest(message: str, understanding: str) -> Iterator[str]:
             yield _done("중지했거나 검토를 끝내지 못했습니다.", True)
             return
         if review_passed(review["text"]):
-            yield _done("모든 단계를 마쳤습니다. 왼쪽 화면에서 결과를 확인하세요.")
+            path = screen_path(development["text"])
+            where = (
+                f" 만든 화면({path})을 왼쪽에 열었습니다."
+                if path
+                else " 왼쪽 화면에서 결과를 확인하세요."
+            )
+            yield _done("모든 단계를 마쳤습니다." + where, path=path)
             return
         feedback = review["text"]
 
@@ -386,7 +406,8 @@ def version(request: Request):
 @app.get("/", include_in_schema=False)
 def page(request: Request):
     _check_local(request)
-    return FileResponse(Path(__file__).parent / "chat.html")
+    # 화면을 고쳤는데 브라우저가 예전 화면을 계속 보여 주는 일이 없도록 저장하지 않게 한다.
+    return FileResponse(Path(__file__).parent / "chat.html", headers={"Cache-Control": "no-store"})
 
 
 @app.post("/chat", include_in_schema=False)
