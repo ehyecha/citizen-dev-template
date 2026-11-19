@@ -19,7 +19,7 @@ if not exist "Dockerfile" (
 rem 이름과 버전을 바로 줄 수도 있습니다: 이미지 만들기.bat material_receipt 1.0
 set "NAME=%~1"
 set "VER=%~2"
-if "%NAME%"=="" echo 도구 이름을 영문 소문자, 숫자, 밑줄로 입력하세요. 예: material_receipt
+if "%NAME%"=="" echo 도구 이름을 영문 소문자, 숫자, 밑줄로 입력하세요. 한글과 띄어쓰기는 안 됩니다. 예: material_receipt
 if "%NAME%"=="" set /p NAME=도구 이름:
 if "%VER%"=="" echo 버전을 입력하세요. 예: 1.0
 if "%VER%"=="" set /p VER=버전:
@@ -37,13 +37,13 @@ if "%VER%"=="" (
 
 echo %NAME%| findstr /r /c:"^[a-z0-9_][a-z0-9_]*$" >nul
 if errorlevel 1 (
-  echo [안내] 도구 이름은 영문 소문자, 숫자, 밑줄만 쓸 수 있고 띄어쓰기는 안 됩니다. 입력한 값: [%NAME%]
+  echo [안내] 도구 이름은 영문 소문자, 숫자, 밑줄만 쓸 수 있습니다. 한글과 띄어쓰기는 안 됩니다. 띄어쓰기 대신 밑줄을 쓰세요. 예: material_receipt  입력한 값: [%NAME%]
   pause
   exit /b 1
 )
 echo %VER%| findstr /r /c:"^[0-9A-Za-z_.][0-9A-Za-z_.-]*$" >nul
 if errorlevel 1 (
-  echo [안내] 버전은 영문, 숫자, 점만 쓸 수 있고 띄어쓰기는 안 됩니다. 예: 1.0  입력한 값: [%VER%]
+  echo [안내] 버전은 영문, 숫자, 점만 쓸 수 있습니다. 한글과 띄어쓰기는 안 됩니다. 예: 1.0  입력한 값: [%VER%]
   pause
   exit /b 1
 )
