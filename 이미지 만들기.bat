@@ -35,7 +35,21 @@ if "%VER%"=="" (
   exit /b 1
 )
 
+echo %NAME%| findstr /r /c:"^[a-z0-9_][a-z0-9_]*$" >nul
+if errorlevel 1 (
+  echo [안내] 도구 이름은 영문 소문자, 숫자, 밑줄만 쓸 수 있고 띄어쓰기는 안 됩니다. 입력한 값: [%NAME%]
+  pause
+  exit /b 1
+)
+echo %VER%| findstr /r /c:"^[0-9A-Za-z_.][0-9A-Za-z_.-]*$" >nul
+if errorlevel 1 (
+  echo [안내] 버전은 영문, 숫자, 점만 쓸 수 있고 띄어쓰기는 안 됩니다. 예: 1.0  입력한 값: [%VER%]
+  pause
+  exit /b 1
+)
+
 echo.
+echo 이미지 이름: %NAME%:%VER%
 echo 이미지를 만드는 중입니다. 처음에는 시간이 걸립니다...
 rem 서버는 linux/amd64 기준이므로 내 PC 종류와 상관없이 맞춰서 만든다.
 docker build --platform linux/amd64 -t %NAME%:%VER% .
