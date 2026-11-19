@@ -16,10 +16,13 @@ if not exist "Dockerfile" (
   exit /b 1
 )
 
-echo 도구 이름을 영문 소문자, 숫자, 밑줄(_)로 입력하세요. 예: material_receipt
-set /p NAME=도구 이름:
-echo 버전을 입력하세요. 예: 1.0
-set /p VER=버전:
+rem 이름과 버전을 바로 줄 수도 있습니다: 이미지 만들기.bat material_receipt 1.0
+set "NAME=%~1"
+set "VER=%~2"
+if "%NAME%"=="" echo 도구 이름을 영문 소문자, 숫자, 밑줄로 입력하세요. 예: material_receipt
+if "%NAME%"=="" set /p NAME=도구 이름:
+if "%VER%"=="" echo 버전을 입력하세요. 예: 1.0
+if "%VER%"=="" set /p VER=버전:
 
 if "%NAME%"=="" (
   echo [안내] 도구 이름이 비어 있습니다.
