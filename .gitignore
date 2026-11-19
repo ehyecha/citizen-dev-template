@@ -11,6 +11,9 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 
+# 만들어진 Docker 이미지 파일 (제출용, Git 에는 올리지 않음)
+dist/
+
 # 로그, 로컬 DB
 *.log
 *.db

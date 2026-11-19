@@ -27,9 +27,15 @@ uv run pytest
 ```
 
 ## 배포팀 참고
-- 결과물은 Docker 이미지로 전달됩니다. `Dockerfile` 관리와 이미지 빌드는 현업 담당자가 하고, 완성된 이미지를 배포팀에 전달합니다. <!-- TODO: 전달 방법(레지스트리·파일 등), 이미지 이름·버전 규칙 -->
+- 결과물은 Docker 이미지 파일(`dist/도구이름-버전.tar`)로 전달됩니다. 직원이 `이미지 만들기.bat` 으로 만든 것이고, 서버 기준(`linux/amd64`)입니다. `.env` 와 접속 정보는 이미지에 들어 있지 않습니다.
+- 서버에서: `docker load -i 도구이름-버전.tar` 로 불러온 뒤, 환경변수 `DATABASE_URL` 을 넣어 실행합니다. 컨테이너는 8000번 포트를 씁니다.
+  ```bash
+  docker load -i material_receipt-1.0.tar
+  docker run -d -p 8000:8000 -e DATABASE_URL="postgresql+psycopg://..." material_receipt:1.0
+  ```
+- 이미지에는 테이블 적용용 `alembic` 이 들어 있습니다. 승인된 마이그레이션 적용: `docker run --rm -e DATABASE_URL="..." material_receipt:1.0 alembic upgrade head`
 - `DB설계.md`(DB·스키마·테이블 이름)는 현업이 개발 전에 작성한 시트입니다. DB 이름과 스키마(`alembic/versions/`)는 현업이 제안한 것이며, **배포팀이 검토해 최종 이름과 구조를 정한 뒤 승인된 것만 적용합니다.**
 - 이 도구는 내 PC 의 PostgreSQL 컨테이너(`docker-compose.yml`)로만 확인했고, **서버 PostgreSQL 에서는 시험하지 않았습니다.**
 - 서버 환경변수 `DATABASE_URL` 에 PostgreSQL 주소(`postgresql+psycopg://...`)를 넣어 주세요.
-- 서버에서는 테이블이 자동으로 만들어지지 않습니다. 처음 배포할 때 `uv run alembic upgrade head` 를 실행해 주세요.
+- 서버에서는 테이블이 자동으로 만들어지지 않습니다. 처음 배포할 때 위의 `alembic upgrade head` 를 실행해 주세요.
 - 상태 확인 주소: `/health`
