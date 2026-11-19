@@ -14,7 +14,7 @@ tools: Read, Grep, Glob, Bash
    - `print` 대신 `logging`을 썼는지, 로그에 민감한 내용이 없는지
    - 오류 시 내부 내용 대신 쉬운 안내 문구를 보여 주는지
    - 사용자 입력을 검증(Pydantic)하는지, SQL을 문자열로 이어 붙이지 않았는지
-   - `/health`, `Dockerfile`, `.github/`, `.gitlab-ci.yml`, `.env`를 건드리지 않았는지
+   - `/health`, `.dockerignore`, `.github/`, `.gitlab-ci.yml`, `.env`를 건드리지 않았는지 (`Dockerfile`을 고쳤다면 `.env`·비밀정보를 넣는 줄이 없는지)
 3. **자동 점검**: `uv run pytest` 와 `uv run ruff check .` 를 **직접 실행**해서 통과하는지
 
 ## 쓰는 법

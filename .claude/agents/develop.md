@@ -24,7 +24,7 @@ tools: Read, Grep, Glob, Edit, MultiEdit, Write, Bash
 - `print` 대신 `logging`을 쓰고, 로그에 개인정보·비밀정보를 남기지 않습니다.
 - 목록 화면은 페이지 나누기를 적용합니다(한 번에 최대 100건).
 - 오류 시 사용자에게 내부 오류 내용을 보여주지 않고 쉬운 안내 문구를 보여줍니다.
-- `/health` 주소, `Dockerfile`, `.github/`, `.gitlab-ci.yml`, `.env`는 건드리지 않습니다.
+- `/health` 주소, `.dockerignore`, `.github/`, `.gitlab-ci.yml`, `.env`는 건드리지 않습니다. `Dockerfile`은 사용자가 요청할 때만 고치고, `.env`·비밀정보를 이미지에 넣는 줄은 만들지 않습니다.
 - 패키지 추가(`uv add`)는 하지 않습니다. 필요하면 이유를 적어서 사용자에게 알립니다.
 - 다른 사내 시스템(ERP, 그룹웨어 등)을 호출하는 코드를 만들지 않습니다.
 - 같은 방법으로 3번 실패하면 멈추고, 상황을 쉬운 말로 설명합니다.

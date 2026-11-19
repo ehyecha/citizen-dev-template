@@ -5,7 +5,7 @@
       "Read(./.env.local)",
       "Read(./.env.prod)",
       "Read(./secrets/**)",
-      "Edit(./Dockerfile)",
+      "Edit(./.dockerignore)",
       "Edit(./.gitlab-ci.yml)",
       "Edit(./.github/**)",
       "Bash(curl:*)",
