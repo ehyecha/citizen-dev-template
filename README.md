@@ -20,6 +20,8 @@ uv sync                                  # 패키지 설치
 uv run uvicorn app.main:app --reload     # 실행 → http://localhost:8000
 ```
 
+내 PC 에서 `APP_ENV=local` 일 때만 앱을 켤 때 테이블이 자동으로 만들어집니다. 화면에서 `relation ... does not exist` 오류가 나면 `.env` 에 `APP_ENV=local` 이 있는지 확인하세요. (`.env.example` 을 복사해서 만들면 들어 있습니다.)
+
 ## 테스트
 내 PC 의 PostgreSQL 이 켜져 있어야 합니다 (`docker compose up -d db`). 테스트는 `_test` 가 붙은 별도 DB 를 쓰므로 내 데이터는 지워지지 않습니다.
 ```bash
@@ -36,6 +38,11 @@ uv run pytest
 - 이미지에는 테이블 적용용 `alembic` 이 들어 있습니다. 승인된 마이그레이션 적용: `docker run --rm -e DATABASE_URL="..." material_receipt:1.0 alembic upgrade head`
 - `DB설계.md`(DB·스키마·테이블 이름)는 현업이 개발 전에 작성한 시트입니다. DB 이름과 스키마(`alembic/versions/`)는 현업이 제안한 것이며, **배포팀이 검토해 최종 이름과 구조를 정한 뒤 승인된 것만 적용합니다.**
 - 이 도구는 내 PC 의 PostgreSQL 컨테이너(`docker-compose.yml`)로만 확인했고, **서버 PostgreSQL 에서는 시험하지 않았습니다.**
-- 서버 환경변수 `DATABASE_URL` 에 PostgreSQL 주소(`postgresql+psycopg://...`)를 넣어 주세요.
+- 서버 환경변수는 아래 표와 같습니다. 이미지에는 값이 들어 있지 않으니 서버에서 넣어 주세요.
+
+  | 환경변수 | 필수 | 설명 |
+  |---|---|---|
+  | `DATABASE_URL` | 필수 | PostgreSQL 주소 (`postgresql+psycopg://...`). 없으면 앱이 시작되지 않습니다. |
+  | `APP_ENV` | 선택 | 기본값 `prod`. `local` 이 아니면 시작할 때 테이블을 자동으로 만들지 않습니다. 서버에서는 `local` 로 넣지 마세요. |
 - 서버에서는 테이블이 자동으로 만들어지지 않습니다. 처음 배포할 때 위의 `alembic upgrade head` 를 실행해 주세요.
 - 상태 확인 주소: `/health`

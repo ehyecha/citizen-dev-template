@@ -178,7 +178,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
-    app_env: str = "local"  # local / dev / prod
+    # local / dev / prod. 값이 없으면 서버(prod)로 본다. 내 PC 는 .env 의 APP_ENV=local 이 우선한다.
+    app_env: str = "prod"
     database_url: SecretStr
 
 
